@@ -1,0 +1,192 @@
+/*  variáveis CSS para cores e fontes */
+:root {
+    --cor-primaria: #131413;
+    --cor-secundaria: #0bebd8;
+    --cor-destaque: #0bebd8;
+    --cor-fundo: #f9f9f9;
+    --cor-borda: #ddd;
+    --cor-texto: #333;
+    --fonte-principal: 'Arial', sans-serif;
+    --fonte-secundaria: 'Roboto', sans-serif;
+}
+
+/* normalizando a pg */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--fonte-principal);
+}
+
+html, body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container principal */
+.container {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    font-family: var(--fonte-secundaria);
+    font-size: 2.5rem;
+    color: var(--cor-primaria);
+    margin-bottom: 50px;
+}
+
+/* Estilização da tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Cabeçalho da tabela */
+th {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-primaria);
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+/* Células da tabela */
+td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--cor-borda);
+    font-size: 1rem;
+}
+
+/* Estilo dos botões */
+button {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--cor-primaria);
+    color: white;
+    font-size: 0,1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--cor-destaque);
+    transform: scale(1.05);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--cor-destaque);
+}
+
+/* Foco nos inputs e botões */
+input:focus, button:focus {
+    border-color: var(--cor-destaque);
+    box-shadow: 0 0 5px var(--cor-destaque);
+}
+
+/* Media Query para telas menores (Tablets) */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    th, td {
+        padding: 12px;
+    }
+
+    td {
+        display: block;
+        width: 100%;
+        text-align: right;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-align: left;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Botões em telas pequenas */
+    button {
+        width: 100%;
+        margin: 5px 0;
+        font-size: 1.1rem;
+    }
+}
+
+/* Media Query para telas muito pequenas (Smartphones) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    td, th {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 1.2rem;
+    }
+}
+
+/* Adicionando animação para o carregamento */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes moverTituloDiagonal {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(200px, 100px); /* Movimento para baixo e para a direita */
+    }
+    50% {
+        transform: translate(0, 0); /* Retorna ao ponto inicial */
+    }
+    75% {
+        transform: translate(-200px, -100px); /* Movimento para cima e para a esquerda */
+    }
+    100% {
+        transform: translate(0, 0); /* Retorna ao ponto inicial */
+    }
+}

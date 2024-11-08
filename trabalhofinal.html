@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Cachorros e Donos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Tabela de Cachorros e Donos</h1>
+        
+        <!-- botao de add cachorro -->
+        <form id="formAdicionarCachorro">
+            <input type="text" id="nomeCachorro" placeholder="Nome do cãozinho" required>
+            <input type="text" id="nomeDono" placeholder="Nome do Tutor" required>
+            <input type="text" id="telefone" placeholder="Telefone do Tutor" required>
+            <input type="email" id="email" placeholder="Email do Tutor" required>
+            <input type="url" id="imagem" placeholder="URL da Imagem" required>
+            <button type="submit">Adicionar Cachorro</button>
+        </form>
+
+        <table id="tabela">
+            <thead>
+                <tr>
+                    <th>Imagem</th>
+                    <th>Cachorro</th>
+                    <th>Dono</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                
+            </tbody>
+        </table>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
