@@ -4,13 +4,16 @@
 async function fazGet(url) {
     try {
         const response = await fetch(url);
+        // Verifica se a resposta HTTP foi bem-sucedida (status 200-299)
         if (!response.ok) {
-            throw new Error(`Erro HTTP! Status: ${response.status}`);
+            // Lança um erro se a resposta não for OK
+            throw new Error(`Erro HTTP! Status: ${response.status} para ${url}`);
         }
-        return await response.json();
+        return await response.json(); // Retorna os dados JSON
     } catch (error) {
-        console.error('Erro na requisição:', error);
-        return null; // Retorna null em caso de erro para não quebrar o fluxo
+        // Captura e loga qualquer erro durante a requisição
+        console.error('Erro na requisição fazGet:', error);
+        return null; // Retorna null para indicar falha na requisição
     }
 }
 
@@ -20,79 +23,63 @@ async function fazGet(url) {
 function criaLinha(dadosCachorro) {
     let linha = document.createElement("tr");
 
-    // Imagem do cachorro
-    let tdImagem = document.createElement("td");
-    let img = document.createElement("img");
-    img.src = dadosCachorro.imagem || 'https://via.placeholder.com/100x100?text=Sem+Imagem'; // Imagem padrão se não houver
-    img.alt = dadosCachorro.cachorro ? `Imagem de um ${dadosCachorro.cachorro}` : "Imagem do cachorro";
-    tdImagem.appendChild(img);
+    // Adiciona o atributo data-label para responsividade
+    linha.innerHTML = `
+        <td data-label="Imagem"><img src="${dadosCachorro.imagem || 'https://via.placeholder.com/100x100?text=Sem+Imagem'}" alt="Imagem do ${dadosCachorro.cachorro || 'cachorro'}"></td>
+        <td data-label="Cachorro">${dadosCachorro.cachorro}</td>
+        <td data-label="Dono">${dadosCachorro.dono}</td>
+        <td data-label="Telefone">${dadosCachorro.telefone}</td>
+        <td data-label="Email">${dadosCachorro.email}</td>
+        <td data-label="Ações">
+            <button class="edit-btn">Editar</button>
+            <button class="delete-btn">Excluir</button>
+        </td>
+    `;
 
-    // Nome do cachorro
-    let tdCachorro = document.createElement("td");
-    tdCachorro.innerHTML = dadosCachorro.cachorro;
+    // Seleciona os botões dentro da nova linha
+    let btnEditar = linha.querySelector(".edit-btn");
+    let btnExcluir = linha.querySelector(".delete-btn");
 
-    // Nome do dono
-    let tdDono = document.createElement("td");
-    tdDono.innerHTML = dadosCachorro.dono;
+    // Atribui os eventos aos botões
+    btnEditar.onclick = function() {
+        const tdCachorro = linha.querySelector('td[data-label="Cachorro"]');
+        const tdDono = linha.querySelector('td[data-label="Dono"]');
+        const tdTelefone = linha.querySelector('td[data-label="Telefone"]');
+        const tdEmail = linha.querySelector('td[data-label="Email"]');
+        const tdImagem = linha.querySelector('td[data-label="Imagem"]'); // Passa o tdImagem
+        editarLinha(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem);
+    };
 
-    // Telefone do dono
-    let tdTelefone = document.createElement("td");
-    tdTelefone.innerHTML = dadosCachorro.telefone;
-
-    // Email do dono
-    let tdEmail = document.createElement("td");
-    tdEmail.innerHTML = dadosCachorro.email;
-
-    // Ações : editar e excluir
-    let tdAcoes = document.createElement("td");
-
-    // Botão de editar
-    let btnEditar = document.createElement("button");
-    btnEditar.innerText = "Editar";
-    btnEditar.className = "edit-btn"; // Adiciona classe para estilização
-    btnEditar.onclick = function() { editarLinha(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem); };
-
-    // Botão de Excluir
-    let btnExcluir = document.createElement("button");
-    btnExcluir.innerText = "Excluir";
-    btnExcluir.className = "delete-btn"; // Adiciona classe para estilização
     btnExcluir.onclick = function() { excluirLinha(btnExcluir); };
-
-    tdAcoes.appendChild(btnEditar);
-    tdAcoes.appendChild(btnExcluir);
-
-    linha.appendChild(tdImagem);
-    linha.appendChild(tdCachorro);
-    linha.appendChild(tdDono);
-    linha.appendChild(tdTelefone);
-    linha.appendChild(tdEmail);
-    linha.appendChild(tdAcoes);
 
     return linha;
 }
 
-// Função para excluir a linha da tabela (sem mudanças)
+// Função para excluir a linha da tabela
 function excluirLinha(botao) {
     let linha = botao.closest("tr");
     linha.remove();
 }
 
-// Função para editar a linha (adaptada para incluir a imagem)
+// Função para editar a linha
 function editarLinha(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem) {
-    const imagemAtual = tdImagem.querySelector("img").src;
+    // Pega o valor atual da imagem (src da img dentro do tdImagem)
+    const imagemElement = tdImagem.querySelector("img");
+    const imagemAtualSrc = imagemElement ? imagemElement.src : '';
 
-    tdCachorro.innerHTML = `<input type="text" class="edit-input" value="${tdCachorro.innerHTML}" />`;
-    tdDono.innerHTML = `<input type="text" class="edit-input" value="${tdDono.innerHTML}" />`;
-    tdTelefone.innerHTML = `<input type="text" class="edit-input" value="${tdTelefone.innerHTML}" />`;
-    tdEmail.innerHTML = `<input type="text" class="edit-input" value="${tdEmail.innerHTML}" />`;
-    tdImagem.innerHTML = `<input type="url" class="edit-input" value="${imagemAtual}" />`; // Input para URL da imagem
+    tdCachorro.innerHTML = `<input type="text" class="edit-input" value="${tdCachorro.textContent}" />`;
+    tdDono.innerHTML = `<input type="text" class="edit-input" value="${tdDono.textContent}" />`;
+    tdTelefone.innerHTML = `<input type="text" class="edit-input" value="${tdTelefone.textContent}" />`;
+    tdEmail.innerHTML = `<input type="text" class="edit-input" value="${tdEmail.textContent}" />`;
+    tdImagem.innerHTML = `<input type="url" class="edit-input" value="${imagemAtualSrc}" />`;
 
-    let btnEditar = linha.querySelector(".edit-btn"); // Usa a classe para selecionar
+    let btnEditar = linha.querySelector(".edit-btn");
     btnEditar.innerText = "Salvar";
+    // Atualiza o onclick para chamar salvarEdicao
     btnEditar.onclick = function() { salvarEdicao(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem); };
 }
 
-// Função para salvar a edição da linha (adaptada para incluir a imagem)
+// Função para salvar a edição da linha
 function salvarEdicao(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem) {
     let novoCachorro = tdCachorro.querySelector("input").value;
     let novoDono = tdDono.querySelector("input").value;
@@ -107,23 +94,25 @@ function salvarEdicao(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem) 
     
     // Atualiza a imagem no TD da imagem
     let imgElement = tdImagem.querySelector("img");
-    if (imgElement) { // Se já existe uma imagem
-        imgElement.src = novaImagemUrl;
-    } else { // Se não existe (caso de algum erro na criação inicial)
-        let newImg = document.createElement("img");
-        newImg.src = novaImagemUrl;
-        newImg.alt = `Imagem de um ${novoCachorro}`;
-        newImg.style.width = "100px";
-        newImg.style.height = "100px";
-        newImg.style.objectFit = "cover";
-        tdImagem.innerHTML = ''; // Limpa o input
-        tdImagem.appendChild(newImg); // Adiciona a nova imagem
+    if (!imgElement) { // Se não encontrou a imagem (ex: tdImagem tinha apenas o input)
+        imgElement = document.createElement("img");
+        tdImagem.innerHTML = ''; // Limpa o conteúdo (o input)
+        tdImagem.appendChild(imgElement); // Adiciona a tag img
     }
+    imgElement.src = novaImagemUrl;
+    imgElement.alt = `Imagem do ${novoCachorro}`; // Atualiza o alt text
+    // Garante que os estilos da imagem sejam aplicados mesmo após a edição
+    imgElement.style.maxWidth = "100px"; 
+    imgElement.style.height = "100px"; 
+    imgElement.style.objectFit = "cover";
+    imgElement.style.borderRadius = "5px";
 
     let btnSalvar = linha.querySelector(".edit-btn");
     btnSalvar.innerText = "Editar";
+    // Retorna o onclick para chamar editarLinha
     btnSalvar.onclick = function() { editarLinha(linha, tdCachorro, tdDono, tdTelefone, tdEmail, tdImagem); };
 }
+
 
 // --- Lógica Principal de Carregamento da API ---
 
@@ -134,40 +123,38 @@ async function main() {
 
     if (breedsData && breedsData.status === "success") {
         const breeds = breedsData.message;
-        const breedNames = Object.keys(breeds); // Pega apenas os nomes das raças
+        const breedNames = Object.keys(breeds);
 
-        // Para evitar sobrecarga na API e carregar muitos dados de uma vez,
-        // vamos limitar a um número razoável de raças para começar (ex: 20)
-        const limit = 20;
+        const limit = 20; // Limite de raças para exibir inicialmente
         const breedsToDisplay = breedNames.slice(0, limit);
 
         for (const raca of breedsToDisplay) {
             const imageUrlData = await fazGet(`https://dog.ceo/api/breed/${raca}/images/random`);
-            if (imageUrlData && imageUrlData.status === "success") {
+            if (imageUrlData && imageUrlData.status === "success" && imageUrlData.message) { // Garante que a URL da imagem existe
                 const cachorro = {
-                    cachorro: raca.charAt(0).toUpperCase() + raca.slice(1), // Capitaliza a primeira letra da raça
-                    imagem: imageUrlData.message,
-                    dono: "Dono Fictício", // Preenche com dado padrão
-                    telefone: "(XX) XXXXX-XXXX", // Preenche com dado padrão
-                    email: "email@ficticio.com" // Preenche com dado padrão
+                    cachorro: raca.charAt(0).toUpperCase() + raca.slice(1), // Capitaliza a primeira letra
+                    imagem: imageUrlData.message, // URL da imagem
+                    dono: "Dono Fictício", // Dado padrão
+                    telefone: "(XX) XXXXX-XXXX", // Dado padrão
+                    email: "email@ficticio.com" // Dado padrão
                 };
                 let linha = criaLinha(cachorro);
                 tabelaBody.appendChild(linha);
             }
         }
     } else {
-        console.error("Não foi possível carregar as raças da API.");
+        console.error("Não foi possível carregar as raças da API. Verifique a conexão ou o console para erros HTTP.");
     }
 }
 
 // --- Funções de Adição Manual ---
 
 // Adiciona um cachorro à tabela via formulário
-document.addEventListener("DOMContentLoaded", () => { // Garante que o DOM está carregado
+document.addEventListener("DOMContentLoaded", () => {
     const formAdicionarCachorro = document.getElementById("formAdicionarCachorro");
     if (formAdicionarCachorro) {
         formAdicionarCachorro.addEventListener("submit", function(event) {
-            event.preventDefault(); // Impede o envio padrão do formulário
+            event.preventDefault();
 
             // Pega os dados dos campos do formulário
             let nomeCachorro = document.getElementById("nomeCachorro").value;
@@ -182,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => { // Garante que o DOM está
                 dono: nomeDono,
                 telefone: telefone,
                 email: email,
-                imagem: imagem // A URL da imagem fornecida
+                imagem: imagem
             };
 
             // Criando a linha na tabela e a adiciona
@@ -193,6 +180,8 @@ document.addEventListener("DOMContentLoaded", () => { // Garante que o DOM está
             // Limpando o formulário após adicionar o cachorro
             formAdicionarCachorro.reset();
         });
+    } else {
+        console.error("Erro: Formulário de adição não encontrado! Verifique o ID 'formAdicionarCachorro'.");
     }
 });
 
