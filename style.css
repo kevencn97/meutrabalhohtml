@@ -1,4 +1,4 @@
-/*  variáveis CSS para cores e fontes */
+/* variáveis CSS para cores e fontes */
 :root {
     --cor-primaria: #131413;
     --cor-secundaria: #0bebd8;
@@ -27,13 +27,13 @@ html, body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Container principal */
-.container {
+/* Container principal - Removido pois não usado no HTML fornecido */
+/* .container {
     width: 90%;
     margin: 0 auto;
     max-width: 1200px;
     padding: 20px;
-}
+} */
 
 /* Título */
 h1 {
@@ -58,7 +58,7 @@ table {
 /* Cabeçalho da tabela */
 th {
     background-color: var(--cor-secundaria);
-    color: var(--cor-primaria);
+    color: var(--cor-primaria); /* Cor do texto no cabeçalho ajustada para ser visível */
     padding: 15px 20px;
     font-size: 1.1rem;
     font-weight: bold;
@@ -82,7 +82,7 @@ button {
     border-radius: 25px;
     background-color: var(--cor-primaria);
     color: white;
-    font-size: 0,1rem;
+    font-size: 1rem; /* Ajustado para ser legível */
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -102,6 +102,85 @@ input:focus, button:focus {
     box-shadow: 0 0 5px var(--cor-destaque);
 }
 
+/* Estilos para o formulário de adição */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+form div {
+    flex: 1;
+    min-width: 150px; /* Garante que os inputs não fiquem muito pequenos */
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+form input[type="text"], 
+form input[type="email"], 
+form input[type="url"] {
+    width: calc(100% - 20px); /* Ajuste para padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+form button[type="submit"] {
+    background-color: #28a745; /* Cor verde para adicionar */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    min-width: 150px;
+    flex-shrink: 0; /* Não permite que diminua mais que o min-width */
+}
+form button[type="submit"]:hover { background-color: #218838; }
+
+/* Estilo para botões de ação na tabela */
+td button {
+    background-color: #007bff; /* Azul para editar */
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+}
+td button.delete-btn { background-color: #dc3545; } /* Vermelho para deletar */
+td button.edit-btn:hover { background-color: #0056b3; }
+td button.delete-btn:hover { background-color: #c82333; }
+
+/* Estilo para inputs durante a edição */
+.edit-input {
+    width: calc(100% - 10px);
+    padding: 5px;
+    border: 1px solid #007bff;
+    border-radius: 3px;
+}
+
+/* Estilo para imagens da tabela */
+img { 
+    max-width: 100px; 
+    height: 100px; 
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    border-radius: 5px; 
+}
+
+
 /* Media Query para telas menores (Tablets) */
 @media (max-width: 768px) {
     table {
@@ -113,6 +192,7 @@ input:focus, button:focus {
         padding: 12px;
     }
 
+    /* Adaptação das células para se comportarem como blocos em mobile */
     td {
         display: block;
         width: 100%;
@@ -120,7 +200,7 @@ input:focus, button:focus {
     }
 
     td::before {
-        content: attr(data-label);
+        content: attr(data-label); /* Mostra o cabeçalho como um label */
         font-weight: bold;
         text-align: left;
         display: block;
@@ -132,6 +212,12 @@ input:focus, button:focus {
         width: 100%;
         margin: 5px 0;
         font-size: 1.1rem;
+    }
+
+    /* Ajuste para inputs do formulário em telas menores */
+    form div {
+        margin-right: 0;
+        min-width: 100%;
     }
 }
 
@@ -173,6 +259,8 @@ body {
     animation: fadeIn 0.8s ease-in-out;
 }
 
+/* A animação moverTituloDiagonal não está sendo aplicada no HTML fornecido, 
+   mas o código dela está correto se você quiser usá-la em algum elemento. */
 @keyframes moverTituloDiagonal {
     0% {
         transform: translate(0, 0);
