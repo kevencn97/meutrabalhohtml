@@ -4,39 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela de Cachorros e Donos</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos básicos para a tabela e o formulário */
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1 { text-align: center; color: #333; }
+        form { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 30px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; }
+        form div { flex: 1; min-width: 150px; margin-right: 15px; margin-bottom: 10px; }
+        form label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        form input[type="text"], 
+        form input[type="email"], 
+        form input[type="url"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        form button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 150px;
+            flex-shrink: 0;
+        }
+        form button[type="submit"]:hover { background-color: #218838; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #00bcd4; /* Cor de cabeçalho da sua imagem */ color: white; text-transform: uppercase; }
+        img { max-width: 100px; height: 100px; object-fit: cover; border-radius: 5px; } /* Adicionado object-fit */
+        
+        /* Estilo para botões de ação na tabela */
+        td button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+        td button.delete-btn { background-color: #dc3545; }
+        td button.edit-btn:hover { background-color: #0056b3; }
+        td button.delete-btn:hover { background-color: #c82333; }
+        
+        /* Estilo para inputs durante a edição */
+        .edit-input {
+            width: calc(100% - 10px);
+            padding: 5px;
+            border: 1px solid #007bff;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Tabela de Cachorros e Donos</h1>
-        
-        <!-- botao de add cachorro -->
-        <form id="formAdicionarCachorro">
-            <input type="text" id="nomeCachorro" placeholder="Nome do cãozinho" required>
+    <h1>Tabela de Cachorros e Donos</h1>
+
+    <form id="formAdicionarCachorro">
+        <div>
+            <label for="nomeCachorro">Nome do Cãozinho:</label>
+            <input type="text" id="nomeCachorro" placeholder="Nome do Cãozinho" required>
+        </div>
+        <div>
+            <label for="nomeDono">Nome do Tutor:</label>
             <input type="text" id="nomeDono" placeholder="Nome do Tutor" required>
-            <input type="text" id="telefone" placeholder="Telefone do Tutor" required>
-            <input type="email" id="email" placeholder="Email do Tutor" required>
+        </div>
+        <div>
+            <label for="telefone">Telefone do Tutor:</label>
+            <input type="text" id="telefone" placeholder="Telefone do Tutor">
+        </div>
+        <div>
+            <label for="email">Email do Tutor:</label>
+            <input type="email" id="email" placeholder="Email do Tutor">
+        </div>
+        <div>
+            <label for="imagem">URL da Imagem:</label>
             <input type="url" id="imagem" placeholder="URL da Imagem" required>
-            <button type="submit">Adicionar Cachorro</button>
-        </form>
+        </div>
+        <button type="submit">Adicionar Cachorro</button>
+    </form>
 
-        <table id="tabela">
-            <thead>
-                <tr>
-                    <th>Imagem</th>
-                    <th>Cachorro</th>
-                    <th>Dono</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                
+    <table>
+        <thead>
+            <tr>
+                <th>IMAGEM</th>
+                <th>CACHORRO</th>
+                <th>DONO</th>
+                <th>TELEFONE</th>
+                <th>EMAIL</th>
+                <th>AÇÕES</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyCachorros">
             </tbody>
-        </table>
-    </div>
+    </table>
 
-    <script src="main.js"></script>
-</body>
+    <script src="main.js"></script> </body>
 </html>
